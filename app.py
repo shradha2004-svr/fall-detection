@@ -41,6 +41,8 @@ demo_meta = np.load(
 # LOAD ACTUAL TRAINED MODEL
 # ============================================================
 
+import tensorflow as tf
+
 lite_model = tf.keras.models.load_model(
     MODEL_PATH,
     compile=False
