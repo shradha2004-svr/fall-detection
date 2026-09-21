@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATH = os.path.join(
     BASE_DIR,
-    "lightweight_model.keras"
+    "lightweight_weights.weights.h5"
 )
 
 demo_X = np.load(
@@ -46,11 +46,37 @@ demo_meta = np.load(
 
 import tensorflow as tf
 
-lite_model = tf.keras.models.load_model(
-    MODEL_PATH,
-    compile=False
+WEIGHTS_PATH = os.path.join(
+    BASE_DIR,
+    "lightweight_weights.weights.h5"
 )
 
+lite_model = tf.keras.Sequential([
+    tf.keras.layers.Input(shape=(200, 9)),
+
+    tf.keras.layers.SeparableConv1D(
+        24, kernel_size=5, activation="relu", padding="same"
+    ),
+    tf.keras.layers.BatchNormalization(),
+    tf.keras.layers.MaxPooling1D(pool_size=2),
+
+    tf.keras.layers.SeparableConv1D(
+        48, kernel_size=5, activation="relu", padding="same"
+    ),
+    tf.keras.layers.BatchNormalization(),
+    tf.keras.layers.MaxPooling1D(pool_size=2),
+
+    tf.keras.layers.LSTM(24),
+    tf.keras.layers.Dropout(0.3),
+
+    tf.keras.layers.Dense(16, activation="relu"),
+    tf.keras.layers.Dense(1, activation="sigmoid")
+])
+
+lite_model.load_weights(WEIGHTS_PATH)
+
+print("Trained model loaded successfully.")
+print("Parameters:", lite_model.count_params())
 
 # ============================================================
 # SAMPLE NAMES
