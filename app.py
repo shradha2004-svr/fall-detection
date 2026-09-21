@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATH = os.path.join(
     BASE_DIR,
-    "lightweight_model.h5"
+    ""lightweight_model.keras""
 )
 
 demo_X = np.load(
