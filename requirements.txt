@@ -1,5 +1,5 @@
 gradio
-tensorflow==2.151
+tensorflow==2.15.1
 numpy
 pandas
 matplotlib
